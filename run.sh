@@ -60,6 +60,8 @@ PRIVATE_IP=$(ip -4 route get 1 | awk '{print $NF;exit}')
 [ -z "$VPN_DNS_1" ] && VPN_DNS_1=8.8.8.8
 [ -z "$VPN_DNS_2" ] && VPN_DNS_2=4.4.4.4
 
+# Try to get Private Network
+[ -z "$PRIVATE_NETWORK" ] && PRIVATE_NETWORK=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:!192.168.42.0/23
 
 # Check IPs for correct format
 IP_REGEX="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
@@ -80,7 +82,7 @@ version 2.0
 config setup
 
   nat_traversal=yes
-  virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:!192.168.42.0/23
+  virtual_private=$PRIVATE_NETWORK
   protostack=netkey
   nhelpers=0
   interfaces=%defaultroute
