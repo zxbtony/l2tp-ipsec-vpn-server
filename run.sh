@@ -55,6 +55,12 @@ PUBLIC_IP=${VPN_PUBLIC_IP:-''}
 PRIVATE_IP=$(ip -4 route get 1 | awk '{print $NF;exit}')
 [ -z "$PRIVATE_IP" ] && PRIVATE_IP=$(ifconfig $VPN_NETWORK_INTERFACE | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*')
 
+
+# Try to get DNS Server
+[ -z "$VPN_DNS_1" ] && VPN_DNS_1=8.8.8.8
+[ -z "$VPN_DNS_2" ] && VPN_DNS_2=4.4.4.4
+
+
 # Check IPs for correct format
 IP_REGEX="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
 if ! printf %s "$PUBLIC_IP" | grep -Eq "$IP_REGEX"; then
@@ -109,8 +115,8 @@ conn xauth-psk
   auto=add
   leftsubnet=0.0.0.0/0
   rightaddresspool=192.168.43.10-192.168.43.250
-  modecfgdns1=8.8.8.8
-  modecfgdns2=8.8.4.4
+  modecfgdns1=$VPN_DNS_1
+  modecfgdns2=$VPN_DNS_2
   leftxauthserver=yes
   rightxauthclient=yes
   leftmodecfgserver=yes
@@ -148,8 +154,8 @@ EOF
 cat > /etc/ppp/options.xl2tpd <<EOF
 ipcp-accept-local
 ipcp-accept-remote
-ms-dns 8.8.8.8
-ms-dns 8.8.4.4
+ms-dns $VPN_DNS_1
+ms-dns $VPN_DNS_2
 noccp
 auth
 crtscts
