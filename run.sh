@@ -82,7 +82,7 @@ version 2.0
 config setup
 
   nat_traversal=yes
-  virtual_private=$PRIVATE_NETWORK
+  virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:!192.168.42.0/23
   protostack=netkey
   nhelpers=0
   interfaces=%defaultroute
