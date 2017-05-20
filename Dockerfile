@@ -1,9 +1,9 @@
 FROM debian:jessie
-MAINTAINER Francois COJEAN <francois.cojean@gmail.com>
+MAINTAINER Tony Zhang <tony.zxb@outlook.com>
 
-ENV REFRESHED_AT 2016-06-05
+ENV REFRESHED_AT 2017-05-20
 
-ENV SWAN_VER 3.17
+ENV SWAN_VER 3.20
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -yqq update \
