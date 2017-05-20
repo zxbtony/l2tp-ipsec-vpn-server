@@ -10,10 +10,12 @@ RUN apt-get -yqq update \
     && apt-get -yqq --no-install-recommends install \
          wget dnsutils openssl ca-certificates kmod \
          iproute gawk grep sed net-tools iptables \
+         bsdmainutils libunbound2 libcurl3-nss \
+         libnss3-tools libevent-dev libcap-ng0 xl2tpd \
          libnss3-dev libnspr4-dev pkg-config libpam0g-dev \
          libcap-ng-dev libcap-ng-utils libselinux1-dev \
-         libcurl4-nss-dev flex bison gcc make \
-         libunbound-dev libnss3-tools libevent-dev xl2tpd xmlto \
+         libcurl4-nss-dev libsystemd-dev flex bison gcc make \
+         libunbound-dev xmlto \
          jq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
