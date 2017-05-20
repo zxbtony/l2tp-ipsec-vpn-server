@@ -96,20 +96,19 @@ fi
 cat > /etc/ipsec.conf <<EOF
 version 2.0
 
-config setup
 
-  nat_traversal=yes
+config setup
   virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12,%v4:!$L2TP_NET,%v4:!$XAUTH_NET
   protostack=netkey
   nhelpers=0
   interfaces=%defaultroute
   uniqueids=no
-
+  
 conn shared
-  left=defaultroute
+  left=%defaultroute
   leftid=$PUBLIC_IP
   right=%any
-  forceencaps=yes
+  encapsulation=yes
   authby=secret
   pfs=no
   rekey=no
@@ -120,15 +119,15 @@ conn shared
   ike=3des-sha1,3des-sha1;modp1024,aes-sha1,aes-sha1;modp1024,aes-sha2,aes-sha2;modp1024,aes256-sha2_512
   phase2alg=3des-sha1,aes-sha1,aes-sha2,aes256-sha2_512
   sha2-truncbug=yes
-
+  
 conn l2tp-psk
   auto=add
   leftprotoport=17/1701
   rightprotoport=17/%any
   type=transport
-  auth=esp
+  phase2=esp
   also=shared
-
+  
 conn xauth-psk
   auto=add
   leftsubnet=0.0.0.0/0
